@@ -264,3 +264,9 @@ ParentGuid = USB\VID_2109&PID_2822
 Plugin = vli
 GType = FuVliUsbhubDevice
 Flags = usb2
+
+# Lenovo SomethingFIXME?
+[DeviceInstanceId=USB\VID_17EF&PID_3093]
+Plugin = vli
+GType = FuVliUsbhubDevice
+Flags = has-realtek
