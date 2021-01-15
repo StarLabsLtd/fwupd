@@ -91,7 +91,6 @@ fu_plugin_flashrom_device_set_version (FuPlugin *plugin, FuDevice *device)
 	const gchar *version;
 	const gchar *version_major;
 	const gchar *version_minor;
-	g_autofree gchar *version_new = NULL;
 
 	/* as-is */
 	version = fu_plugin_get_dmi_value (plugin, FU_HWIDS_KEY_BIOS_VERSION);
@@ -100,19 +99,21 @@ fu_plugin_flashrom_device_set_version (FuPlugin *plugin, FuDevice *device)
 		 * so strip it before we use ensure-semver */
 		if (strlen (version) > 9 && g_str_has_prefix (version, "CBET"))
 			version += 9;
-		version_new = g_strdup (version);
-		/* some firmware encodes a triplet like major.minor-micro */
-		g_strdelimit (version_new, "-", '.');
-		fu_device_set_version (device, version_new);
-		return;
+
+		/* this may not "stick" if there are no numeric chars */
+		fu_device_set_version (device, version);
+		if (fu_device_get_version (device) != NULL)
+			return;
 	}
 
 	/* component parts only */
 	version_major = fu_plugin_get_dmi_value (plugin, FU_HWIDS_KEY_BIOS_MAJOR_RELEASE);
 	version_minor = fu_plugin_get_dmi_value (plugin, FU_HWIDS_KEY_BIOS_MINOR_RELEASE);
 	if (version_major != NULL && version_minor != NULL) {
-		version_new = g_strdup_printf ("%s.%s.0", version_major, version_minor);
-		fu_device_set_version (device, version_new);
+		g_autofree gchar *tmp = g_strdup_printf ("%s.%s.0",
+							 version_major,
+							 version_minor);
+		fu_device_set_version (device, tmp);
 		return;
 	}
 }
