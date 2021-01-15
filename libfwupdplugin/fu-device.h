@@ -204,6 +204,7 @@ FuDevice	*fu_device_new				(void);
  * @FU_DEVICE_INTERNAL_FLAG_MD_SET_VERFMT:		Set the device version format from the metadata if available
  * @FU_DEVICE_INTERNAL_FLAG_MD_SET_ICON:		Set the device icon from the metadata if available
  * @FU_DEVICE_INTERNAL_FLAG_RETRY_OPEN:			Retry the device open up to 5 times if it fails
+ * @FU_DEVICE_INTERNAL_FLAG_CONVERTED_INSTANCE_IDS:	The device has already converted instance IDs to GUIDs
  *
  * The device internal flags.
  **/
@@ -217,6 +218,7 @@ typedef enum {
 	FU_DEVICE_INTERNAL_FLAG_MD_SET_VERFMT		= (1llu << 5),	/* Since: 1.5.5 */
 	FU_DEVICE_INTERNAL_FLAG_MD_SET_ICON		= (1llu << 6),	/* Since: 1.5.5 */
 	FU_DEVICE_INTERNAL_FLAG_RETRY_OPEN		= (1llu << 7),	/* Since: 1.5.5 */
+	FU_DEVICE_INTERNAL_FLAG_CONVERTED_INSTANCE_IDS	= (1llu << 8),	/* Since: 1.5.6 */
 	/*< private >*/
 	FU_DEVICE_INTERNAL_FLAG_UNKNOWN			= G_MAXUINT64,
 } FuDeviceInternalFlags;

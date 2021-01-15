@@ -1430,6 +1430,10 @@ fu_device_add_instance_id_full (FuDevice *self,
 	fu_device_add_guid_quirks (self, guid);
 	if ((flags & FU_DEVICE_INSTANCE_FLAG_ONLY_QUIRKS) == 0)
 		fwupd_device_add_instance_id (FWUPD_DEVICE (self), instance_id);
+
+	/* already done by ->setup(), so this must be ->registered() */
+	if (fu_device_has_internal_flag (self, FU_DEVICE_INTERNAL_FLAG_CONVERTED_INSTANCE_IDS))
+		fwupd_device_add_guid (FWUPD_DEVICE (self), guid);
 }
 
 /**
@@ -3115,6 +3119,7 @@ fu_device_rescan (FuDevice *self, GError **error)
 
 	/* subclassed */
 	if (klass->rescan != NULL) {
+		fu_device_remove_internal_flag (self, FU_DEVICE_INTERNAL_FLAG_CONVERTED_INSTANCE_IDS);
 		if (!klass->rescan (self, error)) {
 			fu_device_convert_instance_ids (self);
 			return FALSE;
@@ -3160,6 +3165,9 @@ fu_device_convert_instance_ids (FuDevice *self)
 		FuDevice *devtmp = g_ptr_array_index (children, i);
 		fu_device_convert_instance_ids (devtmp);
 	}
+
+	/* success */
+	fu_device_add_internal_flag (self, FU_DEVICE_INTERNAL_FLAG_CONVERTED_INSTANCE_IDS);
 }
 
 /**
