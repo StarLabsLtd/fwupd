@@ -42,6 +42,12 @@ fu_plugin_device_registered (FuPlugin *plugin, FuDevice *dev)
 			priv->bcr_addr = tmp;
 		}
 	}
+	if (g_strcmp0 (fu_device_get_plugin (dev), "flashrom") == 0) {
+		if (priv->bcr & BCR_BLE) {
+			fu_device_remove_flag (dev, FWUPD_DEVICE_FLAG_UPDATABLE);
+			fu_device_set_update_error (dev, "BIOS locked");
+		}
+	}
 }
 
 static void
