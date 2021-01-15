@@ -53,6 +53,12 @@ fu_plugin_coreboot_device_set_hwids (FuPlugin *plugin, FuDevice *device)
 		"HardwareID-5",
 		"HardwareID-6",
 		"HardwareID-10",
+		/* a more useful one for coreboot branch detection */
+		FU_HWIDS_KEY_MANUFACTURER "&"
+		FU_HWIDS_KEY_FAMILY "&"
+		FU_HWIDS_KEY_PRODUCT_NAME "&"
+		FU_HWIDS_KEY_PRODUCT_SKU "&"
+		FU_HWIDS_KEY_BIOS_VENDOR,
 	};
 	/* don't include FU_HWIDS_KEY_BIOS_VERSION */
 	for (guint i = 0; i < G_N_ELEMENTS (hwids); i++) {
