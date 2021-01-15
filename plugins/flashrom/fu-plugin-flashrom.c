@@ -152,6 +152,8 @@ fu_plugin_coldplug (FuPlugin *plugin, GError **error)
 			fu_device_set_id (device, device_id);
 			fu_device_add_guid (device, guid);
 			fu_plugin_flashrom_device_set_version (plugin, device);
+			if (!fu_device_setup (device, error))
+				return FALSE;
 			g_ptr_array_add (devices, g_steal_pointer (&device));
 			break;
 		}
