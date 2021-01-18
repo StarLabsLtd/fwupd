@@ -12,8 +12,8 @@ if [ "$OS" = "debian-s390x" ]; then
 fi
 
 #prepare
-export DEBFULLNAME="CI Builder"
-export DEBEMAIL="ci@travis-ci.org"
+export DEBFULLNAME="Sean Rhodes"
+export DEBEMAIL="sean@starlabs.systems"
 VERSION=`git describe | sed 's/-/+r/;s/-/+/'`
 [ -z $VERSION ] && VERSION=`head meson.build | grep ' version :' | cut -d \' -f2`
 rm -rf build/
@@ -30,8 +30,12 @@ sed s/quilt/native/ debian/source/format -i
 #if some are missing, we're going to use subproject instead and
 #packaging CI will fail
 if ! dpkg-checkbuilddeps; then
-	./contrib/ci/ubuntu.sh
-	exit 0
+	echo "deb http://ppa.launchpad.net/starlabs/ppa/ubuntu groovy main" > /etc/apt/sources.list.d/starlabs-ubuntu-ppa-groovy.list
+	apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 17A20BAF70BEC3904545ACFF8F21C26C794386E3
+	apt update
+	./contrib/ci/generate_dependencies.py | xargs apt install -y
+#	./contrib/ci/ubuntu.sh
+#	exit 0
 fi
 
 #clone test firmware
@@ -45,48 +49,51 @@ if [ -x /usr/lib/fwupd/fwupd ]; then
 	export DEB_BUILD_OPTIONS=nocheck
 fi
 #build the package
-EDITOR=/bin/true dch --create --package fwupd -v $VERSION "CI Build"
-debuild --no-lintian --preserve-envvar CI --preserve-envvar CC
+EDITOR=/bin/true dch --create --package fwupd --distribution groovy -v $VERSION "CI Build"
+# EDITOR=/bin/true dch --create --package fwupd --distribution groovy -v 1.5.5+r2+g8fa65d98+starla>
+debuild -S
+#EDITOR=/bin/true dch --create --package fwupd -v $VERSION "CI Build"
+#debuild --no-lintian --preserve-envvar CI --preserve-envvar CC
 
 #check lintian output
 #suppress tags that are side effects of building in docker this way
-lintian ../*changes \
-	-IE \
-	--pedantic \
-	--no-tag-display-limit \
-	--suppress-tags bad-distribution-in-changes-file \
-	--suppress-tags debian-watch-file-in-native-package \
-	--suppress-tags source-nmu-has-incorrect-version-number \
-	--suppress-tags no-symbols-control-file \
-	--suppress-tags gzip-file-is-not-multi-arch-same-safe \
-	--suppress-tags missing-dependency-on-libc \
-	--suppress-tags arch-dependent-file-not-in-arch-specific-directory \
-	--allow-root
-
+#lintian ../*changes \
+#	-IE \
+#	--pedantic \
+#	--no-tag-display-limit \
+#	--suppress-tags bad-distribution-in-changes-file \
+#	--suppress-tags debian-watch-file-in-native-package \
+#	--suppress-tags source-nmu-has-incorrect-version-number \
+#	--suppress-tags no-symbols-control-file \
+#	--suppress-tags gzip-file-is-not-multi-arch-same-safe \
+#	--suppress-tags missing-dependency-on-libc \
+#	--suppress-tags arch-dependent-file-not-in-arch-specific-directory \
+#	--allow-root
+#
 #if invoked outside of CI
-if [ ! -f /.dockerenv ]; then
-	echo "Not running in a container, please manually install packages"
-	exit 0
-fi
+#if [ ! -f /.dockerenv ]; then
+#	echo "Not running in a container, please manually install packages"
+#	exit 0
+#fi
 
 #test the packages install
-PACKAGES=$(ls ../*.deb | grep -v 'fwupd-tests\|dbgsym')
-dpkg -i $PACKAGES
+#PACKAGES=$(ls ../*.deb | grep -v 'fwupd-tests\|dbgsym')
+#dpkg -i $PACKAGES
 
 # run the installed tests
-if [ "$CI" = "true" ]; then
-	dpkg -i ../fwupd-tests*.deb
-	service dbus restart
-	gnome-desktop-testing-runner fwupd
-	apt purge -y fwupd-tests
-fi
+#if [ "$CI" = "true" ]; then
+#	dpkg -i ../fwupd-tests*.deb
+#	service dbus restart
+#	gnome-desktop-testing-runner fwupd
+#	apt purge -y fwupd-tests
+#fi
 
 #test the packages remove
-apt purge -y fwupd \
-	     fwupd-doc \
-	     libfwupd2 \
-	     libfwupd-dev
-
+#apt purge -y fwupd \
+#	     fwupd-doc \
+#	     libfwupd2 \
+#	     libfwupd-dev
+#
 #place built packages in dist outside docker
-mkdir -p ../dist
-cp $PACKAGES ../dist
+#mkdir -p ../dist
+#cp $PACKAGES ../dist
