@@ -178,6 +178,13 @@ fu_plugin_udev_device_added (FuPlugin *plugin, FuUdevDevice *device, GError **er
 		g_prefix_error (error, "could not read BCR: ");
 		return FALSE;
 	}
+	if (priv->bcr == 0x0) {
+		g_set_error_literal (error,
+				     FWUPD_ERROR,
+				     FWUPD_ERROR_NOT_SUPPORTED,
+				     "BCR invalid, skipping device");
+		return FALSE;
+	}
 
 	/* main-system-firmware device added first, probably from flashrom */
 	device_msf = fu_plugin_cache_lookup (plugin, "main-system-firmware");
