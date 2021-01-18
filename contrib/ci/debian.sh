@@ -49,8 +49,8 @@ if [ -x /usr/lib/fwupd/fwupd ]; then
 	export DEB_BUILD_OPTIONS=nocheck
 fi
 #build the package
-# EDITOR=/bin/true dch --create --package fwupd --distribution groovy -v $VERSION "CI Build"
-EDITOR=/bin/true dch --create --package fwupd --distribution groovy -v 1.5.6 "CI Build"
+EDITOR=/bin/true dch --create --package fwupd --distribution groovy -v $VERSION "CI Build"
+#EDITOR=/bin/true dch --create --package fwupd --distribution groovy -v 1.5.6 "CI Build"
 debuild -S
 #EDITOR=/bin/true dch --create --package fwupd -v $VERSION "CI Build"
 #debuild --no-lintian --preserve-envvar CI --preserve-envvar CC
