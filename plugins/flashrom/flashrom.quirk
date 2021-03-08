@@ -10,7 +10,6 @@ VersionFormat=quad
 # Star LabTop Mk III (HwId)
 [013b60e5-1023-5bee-8ae5-14cae21377b7]
 Plugin=flashrom
-PciBcrAddr = 0x0
 
 # Star LabTop Mk IV (HwId)
 [baf1d04e-fd16-5e6a-93cc-1c23d171f879]
@@ -28,6 +27,10 @@ Plugin=flashrom
 [d33219e2-b84c-53a8-a624-27af9752dba6]
 Branch=coreboot
 VersionFormat=number
+
+# Star LabTop Mk III (AMI GUID)
+[a20caf4c-3ed8-531c-b59a-eb079ab5e65e]
+PciBcrAddr = 0x0
 
 # Star LabTop Mk IV (coreboot GUID)
 [0ee5867c-93f0-5fb4-adf1-9d686ea1183a]
