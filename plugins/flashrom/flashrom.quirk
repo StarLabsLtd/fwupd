@@ -28,7 +28,7 @@ Plugin=flashrom
 Branch=coreboot
 VersionFormat=number
 
-# Star LabTop Mk III (Ami GUID)
+# Star LabTop Mk III (AMI GUID)
 [a20caf4c-3ed8-531c-b59a-eb079ab5e65e]
 PciBcrAddr = 0x0
 
