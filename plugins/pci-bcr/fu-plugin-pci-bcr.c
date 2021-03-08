@@ -35,7 +35,7 @@ fu_plugin_pci_bcr_set_updatable (FuPlugin *plugin, FuDevice *dev)
 {
 	FuPluginData *priv = fu_plugin_get_data (plugin);
 	guint tmp = fu_device_get_metadata_integer (dev, "PciBcrAddr");
-	if (tmp == "0x0") {
+	if (tmp == 0) {
 		fu_device_set_update_error (dev, "BIOS reports locked");
 	} else if ((priv->bcr & BCR_WPD) == 0 && (priv->bcr & BCR_BLE) > 0) {
 		fu_device_remove_flag (dev, FWUPD_DEVICE_FLAG_UPDATABLE);
