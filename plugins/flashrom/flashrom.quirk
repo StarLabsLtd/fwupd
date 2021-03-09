@@ -24,7 +24,6 @@ Plugin=flashrom
 Plugin=flashrom
 
 # Star LabTop Mk III (coreboot GUID)
-# Only works with 1f.5 disabled
 [d33219e2-b84c-53a8-a624-27af9752dba6]
 PciBcrAddr = 0x0
 Branch=coreboot
