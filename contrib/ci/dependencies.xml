@@ -6,7 +6,7 @@
     </distro>
   </dependency>
   <dependency type="build" id="abigail-tools">
-    <distro id="ubuntu">
+    <distro id="launchpad">
       <package variant="x86_64" />
     </distro>
   </dependency>
@@ -25,7 +25,8 @@
       <package variant="x86_64" />
       <package variant="aarch64" />
     </distro>
-    <distro id="ubuntu">
+    <distro id="launchpad">
+      <control />
       <package variant="x86_64" />
     </distro>
   </dependency>
@@ -57,17 +58,17 @@
       <package variant="x86_64" />
       <package variant="i386" />
     </distro>
-    <distro id="ubuntu">
+    <distro id="launchpad">
       <package variant="x86_64" />
     </distro>
   </dependency>
   <dependency type="build" id="clang">
-    <distro id="ubuntu">
+    <distro id="launchpad">
       <package variant="x86_64" />
     </distro>
   </dependency>
   <dependency type="build" id="clang-tools">
-    <distro id="ubuntu">
+    <distro id="launchpad">
       <package variant="x86_64" />
     </distro>
   </dependency>
@@ -78,7 +79,7 @@
     <distro id="debian">
       <package variant="x86_64" />
     </distro>
-    <distro id="ubuntu">
+    <distro id="launchpad">
       <package variant="x86_64" />
     </distro>
   </dependency>
@@ -112,7 +113,7 @@
       <package variant="s390x">libcairo-dev:s390x</package>
       <package variant="i386" />
     </distro>
-    <distro id="ubuntu">
+    <distro id="launchpad">
       <control />
       <package variant="x86_64" />
     </distro>
@@ -131,7 +132,7 @@
       <package variant="s390x">libcairo-gobject2:s390x</package>
       <package variant="i386" />
     </distro>
-    <distro id="ubuntu">
+    <distro id="launchpad">
       <control />
       <package variant="x86_64" />
     </distro>
@@ -159,7 +160,7 @@
       <package variant="s390x">libjson-glib-dev:s390x</package>
       <package variant="i386" />
     </distro>
-    <distro id="ubuntu">
+    <distro id="launchpad">
       <control>
         <version>(>= 1.1.1)</version>
       </control>
@@ -181,7 +182,7 @@
       <package variant="x86_64" />
       <package variant="i386" />
     </distro>
-    <distro id="ubuntu">
+    <distro id="launchpad">
       <package variant="x86_64" />
     </distro>
   </dependency>
@@ -201,7 +202,7 @@
       <package variant="x86_64" />
       <package variant="i386" />
     </distro>
-    <distro id="ubuntu">
+    <distro id="launchpad">
       <control />
       <package variant="x86_64" />
     </distro>
@@ -225,7 +226,7 @@
       <package variant="x86_64" />
       <package variant="i386" />
     </distro>
-    <distro id="ubuntu">
+    <distro id="launchpad">
       <control />
       <package variant="x86_64" />
     </distro>
@@ -235,7 +236,7 @@
       <package variant="x86_64" />
       <package variant="i386" />
     </distro>
-    <distro id="ubuntu">
+    <distro id="launchpad">
       <package variant="x86_64" />
     </distro>
   </dependency>
@@ -247,7 +248,7 @@
       <package variant="x86_64" />
       <package variant="i386" />
     </distro>
-    <distro id="ubuntu">
+    <distro id="launchpad">
       <control>
         <version>(>= 12)</version>
       </control>
@@ -266,7 +267,7 @@
       <package variant="x86_64" />
       <package variant="i386" />
     </distro>
-    <distro id="ubuntu">
+    <distro id="launchpad">
       <package variant="x86_64" />
     </distro>
   </dependency>
@@ -285,7 +286,7 @@
       <package variant="x86_64" />
       <package variant="i386" />
     </distro>
-    <distro id="ubuntu">
+    <distro id="launchpad">
       <control />
       <package variant="x86_64" />
     </distro>
@@ -300,7 +301,7 @@
       <package variant="x86_64" />
       <package variant="i386" />
     </distro>
-    <distro id="ubuntu">
+    <distro id="launchpad">
       <package variant="x86_64" />
     </distro>
   </dependency>
@@ -318,7 +319,7 @@
       <package variant="s390x">libfreetype6-dev:s390x</package>
       <package variant="i386" />
     </distro>
-    <distro id="ubuntu">
+    <distro id="launchpad">
       <control />
       <package variant="x86_64" />
     </distro>
@@ -336,7 +337,7 @@
       <package variant="x86_64" />
       <package variant="i386" />
     </distro>
-    <distro id="ubuntu">
+    <distro id="launchpad">
       <control />
       <package variant="x86_64" />
     </distro>
@@ -353,7 +354,7 @@
       <package variant="x86_64" />
       <package variant="i386" />
     </distro>
-    <distro id="ubuntu">
+    <distro id="launchpad">
       <control>
         <exclusive>ia64</exclusive>
       </control>
@@ -379,7 +380,7 @@
       <package variant="s390x" />
       <package variant="i386" />
     </distro>
-    <distro id="ubuntu">
+    <distro id="launchpad">
       <control />
       <package variant="x86_64" />
     </distro>
@@ -406,7 +407,7 @@
       <package variant="s390x" />
       <package variant="i386" />
     </distro>
-    <distro id="ubuntu">
+    <distro id="launchpad">
       <control>
         <version>(>= 0.19.8.1)</version>
       </control>
@@ -446,7 +447,7 @@
       <package variant="x86_64">gnu-efi</package>
       <package variant="i386">gnu-efi</package>
     </distro>
-    <distro id="ubuntu">
+    <distro id="launchpad">
       <control>
         <inclusive>amd64</inclusive>
         <inclusive>arm64</inclusive>
@@ -477,7 +478,7 @@
       <package variant="s390x" />
       <package variant="i386" />
     </distro>
-    <distro id="ubuntu">
+    <distro id="launchpad">
       <package variant="x86_64" />
     </distro>
   </dependency>
@@ -486,7 +487,7 @@
       <package variant="x86_64" />
       <package variant="i386" />
     </distro>
-    <distro id="ubuntu">
+    <distro id="launchpad">
       <package variant="x86_64" />
     </distro>
   </dependency>
@@ -512,7 +513,7 @@
       <package variant="s390x">libglib2.0-dev:s390x</package>
       <package variant="i386" />
     </distro>
-    <distro id="ubuntu">
+    <distro id="launchpad">
       <control>
         <version>(>= 2.45.8)</version>
       </control>
@@ -544,7 +545,7 @@
       <package variant="x86_64" />
       <package variant="i386" />
     </distro>
-    <distro id="ubuntu">
+    <distro id="launchpad">
       <control />
       <package variant="x86_64" />
     </distro>
@@ -557,7 +558,7 @@
       <package variant="x86_64" />
       <package variant="i386" />
     </distro>
-    <distro id="ubuntu">
+    <distro id="launchpad">
       <package variant="x86_64" />
     </distro>
   </dependency>
@@ -579,7 +580,7 @@
       <package variant="s390x">libgnutls28-dev:s390x</package>
       <package variant="i386">libgnutls28-dev</package>
     </distro>
-    <distro id="ubuntu">
+    <distro id="launchpad">
       <control />
       <package variant="x86_64" />
     </distro>
@@ -601,7 +602,7 @@
       <package variant="s390x" />
       <package variant="i386" />
     </distro>
-    <distro id="ubuntu">
+    <distro id="launchpad">
       <control />
       <package variant="x86_64" />
     </distro>
@@ -615,7 +616,7 @@
       <package variant="aarch64" />
       <package variant="mingw64" />
     </distro>
-    <distro id="ubuntu">
+    <distro id="launchpad">
       <control />
       <package variant="x86_64" />
     </distro>
@@ -644,7 +645,7 @@
       <package variant="s390x">libxmlb-dev:s390x</package>
       <package variant="i386" />
     </distro>
-    <distro id="ubuntu">
+    <distro id="launchpad">
       <control>
         <version>(>= 0.1.13)</version>
       </control>
@@ -662,7 +663,7 @@
       <package variant="s390x" />
       <package variant="i386" />
     </distro>
-    <distro id="ubuntu">
+    <distro id="launchpad">
       <control />
       <package variant="x86_64" />
     </distro>
@@ -681,7 +682,7 @@
       <package variant="s390x" />
       <package variant="i386" />
     </distro>
-    <distro id="ubuntu">
+    <distro id="launchpad">
       <control />
       <package variant="x86_64" />
     </distro>
@@ -701,7 +702,7 @@
       <package variant="s390x">libarchive-dev:s390x</package>
       <package variant="i386" />
     </distro>
-    <distro id="ubuntu">
+    <distro id="launchpad">
       <control />
       <package variant="x86_64" />
     </distro>
@@ -726,7 +727,7 @@
       <package variant="s390x">libcbor-dev:s390x</package>
       <package variant="i386" />
     </distro>
-    <distro id="ubuntu">
+    <distro id="launchpad">
       <control />
       <package variant="x86_64" />
     </distro>
@@ -758,7 +759,7 @@
       <package variant="x86_64" />
       <package variant="i386" />
     </distro>
-    <distro id="ubuntu">
+    <distro id="launchpad">
       <control>
         <inclusive>amd64</inclusive>
         <inclusive>arm64</inclusive>
@@ -779,7 +780,7 @@
       <package variant="x86_64" />
       <package variant="i386" />
     </distro>
-    <distro id="ubuntu">
+    <distro id="launchpad">
       <control>
         <inclusive>amd64</inclusive>
         <inclusive>arm64</inclusive>
@@ -806,7 +807,7 @@
       <package variant="s390x">libgcab-dev:s390x</package>
       <package variant="i386" />
     </distro>
-    <distro id="ubuntu">
+    <distro id="launchpad">
       <control />
       <package variant="x86_64" />
     </distro>
@@ -821,7 +822,7 @@
       <package variant="s390x" />
       <package variant="i386" />
     </distro>
-    <distro id="ubuntu">
+    <distro id="launchpad">
       <control />
       <package variant="x86_64" />
     </distro>
@@ -840,7 +841,7 @@
       <package variant="s390x">libgudev-1.0-dev:s390x</package>
       <package variant="i386" />
     </distro>
-    <distro id="ubuntu">
+    <distro id="launchpad">
       <control />
       <package variant="x86_64" />
     </distro>
@@ -868,7 +869,7 @@
       <package variant="s390x">libgusb-dev:s390x</package>
       <package variant="i386" />
     </distro>
-    <distro id="ubuntu">
+    <distro id="launchpad">
       <control>
         <version>(>= 0.3.3)</version>
       </control>
@@ -908,7 +909,7 @@
       <package variant="x86_64" />
       <package variant="i386" />
     </distro>
-    <distro id="ubuntu">
+    <distro id="launchpad">
       <control>
         <inclusive>i386</inclusive>
         <inclusive>amd64</inclusive>
@@ -917,7 +918,7 @@
     </distro>
   </dependency>
   <dependency type="build" id="libsoup2.4-dev">
-    <distro id="ubuntu">
+    <distro id="launchpad">
       <control />
       <package variant="x86_64" />
     </distro>
@@ -946,7 +947,7 @@
       <package variant="s390x">libcurl4-gnutls-dev:s390x</package>
       <package variant="i386" />
     </distro>
-    <distro id="ubuntu">
+    <distro id="launchpad">
       <control />
       <package variant="x86_64" />
     </distro>
@@ -957,7 +958,7 @@
       <package variant="x86_64" />
       <package variant="i386" />
     </distro>
-    <distro id="ubuntu">
+    <distro id="launchpad">
       <control />
       <package variant="x86_64" />
     </distro>
@@ -972,7 +973,7 @@
       <package variant="x86_64" />
       <package variant="i386" />
     </distro>
-    <distro id="ubuntu">
+    <distro id="launchpad">
       <package variant="x86_64" />
     </distro>
   </dependency>
@@ -986,7 +987,7 @@
       <package variant="x86_64" />
       <package variant="i386" />
     </distro>
-    <distro id="ubuntu">
+    <distro id="launchpad">
       <package variant="x86_64" />
     </distro>
   </dependency>
@@ -997,7 +998,7 @@
       <package variant="s390x" />
       <package variant="i386" />
     </distro>
-    <distro id="ubuntu">
+    <distro id="launchpad">
       <control />
       <package variant="x86_64" />
     </distro>
@@ -1020,7 +1021,7 @@
       <package variant="s390x" />
       <package variant="i386" />
     </distro>
-    <distro id="ubuntu">
+    <distro id="launchpad">
       <control />
       <package variant="x86_64" />
     </distro>
@@ -1042,7 +1043,7 @@
       <package variant="x86_64" />
       <package variant="i386" />
     </distro>
-    <distro id="ubuntu">
+    <distro id="launchpad">
       <control>
         <inclusive>amd64</inclusive>
         <inclusive>arm64</inclusive>
@@ -1068,7 +1069,7 @@
       <package variant="x86_64" />
       <package variant="i386" />
     </distro>
-    <distro id="ubuntu">
+    <distro id="launchpad">
       <control />
       <package variant="x86_64" />
     </distro>
@@ -1079,7 +1080,7 @@
       <package variant="x86_64" />
       <package variant="i386" />
     </distro>
-    <distro id="ubuntu">
+    <distro id="launchpad">
       <control />
       <package variant="x86_64" />
     </distro>
@@ -1112,7 +1113,7 @@
       <package variant="s390x" />
       <package variant="i386" />
     </distro>
-    <distro id="ubuntu">
+    <distro id="launchpad">
       <control>
         <version>(>> 0.105-14)</version>
       </control>
@@ -1136,7 +1137,7 @@
       <package variant="s390x">libmm-glib-dev:s390x</package>
       <package variant="i386" />
     </distro>
-    <distro id="ubuntu">
+    <distro id="launchpad">
       <control />
       <package variant="x86_64" />
     </distro>
@@ -1158,7 +1159,7 @@
       <package variant="s390x">libqmi-glib-dev:s390x</package>
       <package variant="i386" />
     </distro>
-    <distro id="ubuntu">
+    <distro id="launchpad">
       <control />
       <package variant="x86_64" />
     </distro>
@@ -1180,7 +1181,7 @@
       <package variant="s390x">libmbim-glib-dev:s390x</package>
       <package variant="i386" />
     </distro>
-    <distro id="ubuntu">
+    <distro id="launchpad">
       <control />
       <package variant="x86_64" />
     </distro>
@@ -1210,7 +1211,7 @@
       <package variant="s390x">libpolkit-gobject-1-dev:s390x</package>
       <package variant="i386" />
     </distro>
-    <distro id="ubuntu">
+    <distro id="launchpad">
       <control />
       <package variant="x86_64" />
     </distro>
@@ -1246,7 +1247,7 @@
       <package variant="s390x" />
       <package variant="i386" />
     </distro>
-    <distro id="ubuntu">
+    <distro id="launchpad">
       <control />
       <package variant="x86_64" />
     </distro>
@@ -1270,14 +1271,14 @@
       <package variant="x86_64" />
       <package variant="i386" />
     </distro>
-    <distro id="ubuntu">
+    <distro id="launchpad">
       <control />
       <package variant="x86_64" />
     </distro>
   </dependency>
   <!-- These are needed for gi-docgen -->
   <dependency type="build" id="python3-pygments">
-    <distro id="ubuntu">
+    <distro id="launchpad">
       <control />
       <package variant="x86_64" />
     </distro>
@@ -1288,7 +1289,7 @@
       <package variant="x86_64" />
       <package variant="i386" />
     </distro>
-    <distro id="ubuntu">
+    <distro id="launchpad">
       <package variant="x86_64" />
     </distro>
     <distro id="fedora">
@@ -1306,7 +1307,7 @@
       <package variant="x86_64" />
       <package variant="aarch64" />
     </distro>
-    <distro id="ubuntu">
+    <distro id="launchpad">
       <package variant="x86_64" />
     </distro>
   </dependency>
@@ -1315,7 +1316,7 @@
       <package variant="x86_64" />
       <package variant="aarch64" />
     </distro>
-    <distro id="ubuntu">
+    <distro id="launchpad">
       <package variant="x86_64" />
     </distro>
   </dependency>
@@ -1329,7 +1330,7 @@
       <package variant="x86_64" />
       <package variant="aarch64" />
     </distro>
-    <distro id="ubuntu">
+    <distro id="launchpad">
       <package variant="x86_64" />
     </distro>
   </dependency>
@@ -1355,7 +1356,7 @@
       <package variant="x86_64" />
       <package variant="i386" />
     </distro>
-    <distro id="ubuntu">
+    <distro id="launchpad">
       <control />
       <package variant="x86_64" />
     </distro>
@@ -1373,7 +1374,7 @@
       <package variant="x86_64" />
       <package variant="i386" />
     </distro>
-    <distro id="ubuntu">
+    <distro id="launchpad">
       <control />
       <package variant="x86_64" />
     </distro>
@@ -1416,7 +1417,7 @@
       <package variant="s390x">libsqlite3-dev:s390x</package>
       <package variant="i386" />
     </distro>
-    <distro id="ubuntu">
+    <distro id="launchpad">
       <control />
       <package variant="x86_64" />
     </distro>
@@ -1445,7 +1446,7 @@
       <package variant="s390x" />
       <package variant="i386" />
     </distro>
-    <distro id="ubuntu">
+    <distro id="launchpad">
       <control>
         <version>(>= 231)</version>
       </control>
@@ -1466,7 +1467,7 @@
       <package variant="s390x">libsystemd-dev:s390x</package>
       <package variant="i386" />
     </distro>
-    <distro id="ubuntu">
+    <distro id="launchpad">
       <control />
       <package variant="x86_64" />
     </distro>
@@ -1488,7 +1489,7 @@
       <package variant="s390x" />
       <package variant="i386" />
     </distro>
-    <distro id="ubuntu">
+    <distro id="launchpad">
       <control />
       <package variant="x86_64" />
     </distro>
@@ -1498,7 +1499,7 @@
       <package variant="x86_64" />
       <package variant="i386" />
     </distro>
-    <distro id="ubuntu">
+    <distro id="launchpad">
       <package variant="x86_64" />
     </distro>
   </dependency>
@@ -1509,7 +1510,7 @@
       <package variant="s390x" />
       <package variant="i386" />
     </distro>
-    <distro id="ubuntu">
+    <distro id="launchpad">
       <control />
       <package variant="x86_64" />
     </distro>
@@ -1530,7 +1531,7 @@
       <package variant="x86_64" />
       <package variant="i386" />
     </distro>
-    <distro id="ubuntu">
+    <distro id="launchpad">
       <control />
       <package variant="x86_64" />
     </distro>
@@ -1555,7 +1556,7 @@
       <package variant="s390x" />
       <package variant="i386" />
     </distro>
-    <distro id="ubuntu">
+    <distro id="launchpad">
       <control />
       <package variant="x86_64" />
     </distro>
@@ -1592,7 +1593,7 @@
       <package variant="x86_64" />
       <package variant="i386" />
     </distro>
-    <distro id="ubuntu">
+    <distro id="launchpad">
       <control>
         <exclusive>ia64</exclusive>
         <exclusive>riscv64</exclusive>
@@ -1644,7 +1645,7 @@
       <package variant="s390x">libtss2-dev:s390x</package>
       <package variant="i386" />
     </distro>
-    <distro id="ubuntu">
+    <distro id="launchpad">
       <control>
         <inclusive>amd64</inclusive>
         <inclusive>arm64</inclusive>
@@ -1664,7 +1665,7 @@
     </distro>
   </dependency>
   <dependency type="build" id="shellcheck">
-    <distro id="ubuntu">
+    <distro id="launchpad">
       <package variant="x86_64" />
     </distro>
     <distro id="fedora">
@@ -1680,7 +1681,7 @@
       <package variant="x86_64" />
       <package variant="i386" />
     </distro>
-    <distro id="ubuntu">
+    <distro id="launchpad">
       <control />
       <package variant="x86_64" />
     </distro>
@@ -1698,7 +1699,7 @@
       <package variant="x86_64" />
       <package variant="i386" />
     </distro>
-    <distro id="ubuntu">
+    <distro id="launchpad">
       <control />
       <package variant="x86_64" />
     </distro>
@@ -1714,7 +1715,7 @@
     <distro id="debian">
       <package variant="i386" />
     </distro>
-    <distro id="ubuntu">
+    <distro id="launchpad">
       <package variant="x86_64" />
     </distro>
   </dependency>
@@ -1723,7 +1724,7 @@
       <package variant="x86_64" />
       <package variant="i386" />
     </distro>
-    <distro id="ubuntu">
+    <distro id="launchpad">
       <package variant="x86_64" />
     </distro>
   </dependency>
