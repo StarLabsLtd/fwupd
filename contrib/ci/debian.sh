@@ -34,7 +34,14 @@ sed s/quilt/native/ debian/source/format -i
 #check if we have all deps available
 #if some are missing, we're going to use subproject instead and
 #packaging CI will fail
-apt update -qq && apt install python3-apt -y
+apt update -qq && apt install python3-apt wget libjcat1 -y
+wget http://ftp.uk.debian.org/debian/pool/main/m/meson/meson_0.61.1-1~bpo11+1_all.deb
+wget http://ftp.uk.debian.org/debian/pool/main/libj/libjcat/libjcat-dev_0.1.9-1_amd64.deb
+wget http://ftp.uk.debian.org/debian/pool/main/libj/libjcat/gir1.2-jcat-1.0_0.1.9-1_amd64.deb
+wget http://ftp.uk.debian.org/debian/pool/main/libj/libjcat/libjcat1_0.1.9-1_amd64.deb
+dpkg -i meson_0.61.1-1~bpo11+1_all.deb
+dpkg -i libjcat-dev_0.1.9-1_amd64.deb libjcat1_0.1.9-1_amd64.deb gir1.2-jcat-1.0_0.1.9-1_amd64.deb
+apt -f install
 ./contrib/ci/fwupd_setup_helpers.py install-dependencies -o debian --yes || true
 if ! dpkg-checkbuilddeps; then
 	./contrib/ci/ubuntu.sh
