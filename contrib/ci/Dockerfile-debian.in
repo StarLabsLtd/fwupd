@@ -1,4 +1,4 @@
-FROM %%%ARCH_PREFIX%%%debian:testing
+FROM %%%ARCH_PREFIX%%%debian:latest
 %%%OS%%%
 ENV CI_NETWORK true
 RUN echo fubar > /etc/machine-id

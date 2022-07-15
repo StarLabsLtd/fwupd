@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 set -e
 set -x
 
@@ -20,18 +20,37 @@ set -x
 #evaluate using Ubuntu's buildflags
 #evaluate using Debian/Ubuntu's buildflags
 #disable link time optimization, Ubuntu currently only sets it for GCC
-export DEB_BUILD_MAINT_OPTIONS="optimize=-lto"
-eval "$(dpkg-buildflags --export=sh)"
+# export DEB_BUILD_MAINT_OPTIONS="optimize=-lto"
+# eval "$(dpkg-buildflags --export=sh)"
 #filter out -Bsymbolic-functions
-LDFLAGS=$(dpkg-buildflags --get LDFLAGS | sed "s/-Wl,-Bsymbolic-functions\s//")
-export LDFLAGS
+# LDFLAGS=$(dpkg-buildflags --get LDFLAGS | sed "s/-Wl,-Bsymbolic-functions\s//")
+# export LDFLAGS
 
-root=$(pwd)
-rm -rf ${root}/build
-chown -R nobody ${root}
-sudo -u nobody meson ${root}/build -Dman=false -Ddocs=enabled -Dgusb:tests=false -Dplugin_platform_integrity=true --prefix=${root}/dist
+export DEBFULLNAME="CI Builder"
+export DEBEMAIL="ci@travis-ci.org"
+VERSION=`git describe | sed 's/-/+r/;s/-/+/'`
+[ -z $VERSION ] && VERSION=`head meson.build | grep ' version:' | cut -d \' -f2`
+rm -rf build/
+mkdir -p build
+shopt -s extglob
+cp -lR !(build|dist|venv) build/
+pushd build
+mv contrib/debian .
+sed s/quilt/native/ debian/source/format -i
+#generate control file
+./contrib/ci/generate_debian.py
+
+EDITOR=/bin/true dch --create --package fwupd -v $VERSION "CI Build"
+debuild --no-lintian --preserve-envvar CI --preserve-envvar CC \
+        --preserve-envvar QUBES_OPTION
+
+exit 1
+# root=$(pwd)
+# rm -rf ${root}/build
+# chown -R nobody ${root}
+# sudo -u nobody meson ${root}/build -Dman=false -Ddocs=enabled -Dgusb:tests=false -Dplugin_platform_integrity=true --prefix=${root}/dist
 #build with clang
-sudo -u nobody ninja -C ${root}/build test -v
+# sudo -u nobody ninja -C ${root}/build test -v
 
 #make docs available outside of docker
-ninja -C ${root}/build install -v
+# ninja -C ${root}/build install -v
