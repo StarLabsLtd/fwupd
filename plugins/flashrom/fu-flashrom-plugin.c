@@ -139,7 +139,7 @@ fu_flashrom_plugin_device_set_hwids(FuPlugin *plugin, FuDevice *device)
 	    "HardwareID-06",
 	    "HardwareID-10",
 	    "fwupd-04", /* for coreboot */
-	    "fwupd-05", /* for coreboot */
+	    "fwupd-05", /* for coreboot branch detection */
 	};
 	/* don't include FU_HWIDS_KEY_BIOS_VERSION */
 	for (guint i = 0; i < G_N_ELEMENTS(chids); i++) {

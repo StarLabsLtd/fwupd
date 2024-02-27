@@ -189,7 +189,7 @@ fu_hwids_get_replace_keys(FuHwids *self, const gchar *key)
  *
  * Defines a "Computer Hardware ID" in terms of a set of SMBIOS values.
  *
- * Since: 1.9.16
+ * Since: 1.9.22
  **/
 void
 fu_hwids_add_chid(FuHwids *self, const gchar *key, const gchar *value)
@@ -216,7 +216,7 @@ fu_hwids_sort_keys_cb(gconstpointer a, gconstpointer b)
  *
  * Returns: (transfer container) (element-type utf8): IDs
  *
- * Since: 1.9.16
+ * Since: 1.9.22
  **/
 GPtrArray *
 fu_hwids_get_chid_keys(FuHwids *self)
