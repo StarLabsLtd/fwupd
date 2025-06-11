@@ -384,16 +384,32 @@ fu_udev_device_probe(FuDevice *device, GError **error)
 		} else {
 			fu_device_set_vid(device, (guint16)tmp64);
 		}
-	}
+	} else {
+		attr_vendor = fu_udev_device_read_sysfs(self,
+							"../vendor",
+							FU_UDEV_DEVICE_ATTR_READ_TIMEOUT_DEFAULT,
+							NULL);
+		if (attr_vendor)
+			fu_device_set_vid(device, (guint16)strtoul(attr_vendor, NULL, 16));
+        }
+
 	attr_device = fu_udev_device_read_sysfs(self,
 						"device",
 						FU_UDEV_DEVICE_ATTR_READ_TIMEOUT_DEFAULT,
 						NULL);
+
 	if (attr_device != NULL) {
 		guint64 tmp64 = 0;
 		if (!fu_strtoull(attr_device, &tmp64, 0, G_MAXUINT16, FU_INTEGER_BASE_AUTO, error))
 			return FALSE;
 		fu_device_set_pid(device, (guint16)tmp64);
+	} else {
+		attr_device = fu_udev_device_read_sysfs(self,
+							"../device",
+							FU_UDEV_DEVICE_ATTR_READ_TIMEOUT_DEFAULT,
+							NULL);
+		if (attr_device)
+			fu_device_set_pid(device, (guint16)strtoul(attr_device, NULL, 16));
 	}
 
 	/* set number */
