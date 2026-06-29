@@ -7,6 +7,11 @@
 
 #include "config.h"
 
+#include <errno.h>
+#include <fcntl.h>
+#include <glib/gstdio.h>
+#include <unistd.h>
+
 #include "fu-coreboot-cfr-setting.h"
 
 #define FU_COREBOOT_CFR_GUID	   "ceae4c1d-335b-4685-a4a0-fc4a94eea085"
@@ -53,8 +58,7 @@ fu_coreboot_cfr_setting_apply_apm_cnt(FuCorebootCfrSetting *self, guint32 value,
 	guint8 cmd = FU_COREBOOT_CFR_APM_APPLY_CMD;
 	guint8 runtime_apply_id = (guint8)self->runtime_apply_id;
 	guint8 status = 0;
-	g_autoptr(FuUdevDevice) udev_device = NULL;
-	g_autoptr(FuDeviceLocker) locker = NULL;
+	g_autofd gint fd = -1;
 
 	if (self->runtime_apply_id == 0)
 		return TRUE;
@@ -67,35 +71,43 @@ fu_coreboot_cfr_setting_apply_apm_cnt(FuCorebootCfrSetting *self, guint32 value,
 		return FALSE;
 	}
 
-	udev_device = g_object_new(FU_TYPE_UDEV_DEVICE, "context", self->ctx, NULL);
-	fu_udev_device_add_open_flag(udev_device, FU_IO_CHANNEL_OPEN_FLAG_READ);
-	fu_udev_device_add_open_flag(udev_device, FU_IO_CHANNEL_OPEN_FLAG_WRITE);
-	fu_udev_device_set_device_file(udev_device, FU_COREBOOT_CFR_DEVICE_FILE);
-	locker = fu_device_locker_new(FU_DEVICE(udev_device), error);
-	if (locker == NULL)
-		return FALSE;
-	if (!fu_udev_device_pwrite(udev_device,
-				   FU_COREBOOT_CFR_APM_STS_PORT,
-				   &runtime_apply_id,
-				   sizeof(runtime_apply_id),
-				   error)) {
-		g_prefix_error_literal(error, "failed to apply at runtime: ");
+	fd = open(FU_COREBOOT_CFR_DEVICE_FILE, O_RDWR | O_CLOEXEC);
+	if (fd < 0) {
+		g_set_error(error,
+			    FWUPD_ERROR,
+			    FWUPD_ERROR_NOT_SUPPORTED,
+			    "failed to open %s: %s",
+			    FU_COREBOOT_CFR_DEVICE_FILE,
+			    fwupd_strerror(errno));
 		return FALSE;
 	}
-	if (!fu_udev_device_pwrite(udev_device,
-				   FU_COREBOOT_CFR_APM_CNT_PORT,
-				   &cmd,
-				   sizeof(cmd),
-				   error)) {
-		g_prefix_error_literal(error, "failed to apply at runtime: ");
+
+	if (pwrite(fd, &runtime_apply_id, sizeof(runtime_apply_id), FU_COREBOOT_CFR_APM_STS_PORT) !=
+	    sizeof(runtime_apply_id)) {
+		g_set_error(error,
+			    FWUPD_ERROR,
+			    FWUPD_ERROR_WRITE,
+			    "failed to apply at runtime: failed to write I/O port 0x%x: %s",
+			    (guint)FU_COREBOOT_CFR_APM_STS_PORT,
+			    fwupd_strerror(errno));
 		return FALSE;
 	}
-	if (!fu_udev_device_pread(udev_device,
-				  FU_COREBOOT_CFR_APM_STS_PORT,
-				  &status,
-				  sizeof(status),
-				  error)) {
-		g_prefix_error_literal(error, "failed to apply at runtime: ");
+	if (pwrite(fd, &cmd, sizeof(cmd), FU_COREBOOT_CFR_APM_CNT_PORT) != sizeof(cmd)) {
+		g_set_error(error,
+			    FWUPD_ERROR,
+			    FWUPD_ERROR_WRITE,
+			    "failed to apply at runtime: failed to write I/O port 0x%x: %s",
+			    (guint)FU_COREBOOT_CFR_APM_CNT_PORT,
+			    fwupd_strerror(errno));
+		return FALSE;
+	}
+	if (pread(fd, &status, sizeof(status), FU_COREBOOT_CFR_APM_STS_PORT) != sizeof(status)) {
+		g_set_error(error,
+			    FWUPD_ERROR,
+			    FWUPD_ERROR_READ,
+			    "failed to apply at runtime: failed to read I/O port 0x%x: %s",
+			    (guint)FU_COREBOOT_CFR_APM_STS_PORT,
+			    fwupd_strerror(errno));
 		return FALSE;
 	}
 	if (status != 0) {
