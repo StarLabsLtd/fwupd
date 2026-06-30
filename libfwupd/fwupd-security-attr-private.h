@@ -182,6 +182,14 @@ G_BEGIN_DECLS
  **/
 #define FWUPD_SECURITY_ATTR_ID_SPI_SMM_BWP "org.fwupd.hsi.Spi.SmmBwp"
 /**
+ * FWUPD_SECURITY_ATTR_ID_SPI_RO_WRITE_PROTECTION: (skip)
+ *
+ * Host Security ID attribute for SPI read-only region write protection
+ *
+ * Since: 2.1.6
+ **/
+#define FWUPD_SECURITY_ATTR_ID_SPI_RO_WRITE_PROTECTION "org.fwupd.hsi.Spi.RoWriteProtection"
+/**
  * FWUPD_SECURITY_ATTR_ID_SPI_DESCRIPTOR: (skip)
  *
  * Host Security ID attribute for Intel SPI descriptor

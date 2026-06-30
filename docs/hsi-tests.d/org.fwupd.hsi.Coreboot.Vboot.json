@@ -2,7 +2,7 @@
   "id": "org.fwupd.hsi.Coreboot.Vboot",
   "name": "coreboot verified boot",
   "description": [
-    "coreboot verified boot checks that signed firmware stages are loaded when the device starts. On systems that boot from Intel SPI flash this should be paired with Intel SPI protected regions so the verified firmware storage cannot be modified from the host."
+    "coreboot verified boot checks that signed firmware stages are loaded when the device starts. On systems that boot from SPI flash this should be paired with SPI read-only region write protection so the verified firmware storage cannot be modified from the host."
   ],
   "failure-impact": [
     "When verified boot is not enabled, or when the protected firmware regions are writable, an attacker may be able to run modified firmware stages."

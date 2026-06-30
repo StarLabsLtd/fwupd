@@ -1,0 +1,26 @@
+{
+  "id": "org.fwupd.hsi.Spi.RoWriteProtection",
+  "name": "SPI read-only region write protection",
+  "description": [
+    "The SPI read-only regions contain firmware data that forms part of the platform root-of-trust.",
+    "These regions must be protected from host writes after the platform has started.",
+    "This HSI attribute is vendor-neutral and may be populated by platform-specific SPI protection providers.",
+    "On Linux, fwupd may use the MTD MEMISLOCKED ioctl when the firmware flash is exposed as an MTD device.",
+    "This reports whether the current kernel-visible MTD region is write protected.",
+    "It does not prove whether the flash chip protection is hardware-pin gated, power-cycle locked, or permanent.",
+    "This is not the same as SMM BIOS Write Protect, which is a separate Intel host write control.",
+    "A future kernel API may provide stronger lock-mode information."
+  ],
+  "failure-impact": [
+    "If the read-only regions are writable then an attacker may be able to modify firmware code or data that is trusted by later boot stages."
+  ],
+  "failure-results": {
+    "not-locked": "SPI read-only regions are writable"
+  },
+  "success-results": {
+    "locked": "SPI read-only regions are write protected"
+  },
+  "hsi-level": 2,
+  "resolution": "Contact your OEM, who may be able to issue a firmware update.",
+  "fwupd-version": "2.1.6"
+}
