@@ -1,0 +1,19 @@
+# StarLite Magnetic Keyboard
+[USB\VID_1C4F&PID_007F]
+Plugin = jddz_kbd
+CounterpartGuid = USB\VID_1C4F&PID_007E
+FirmwareSizeMin = 0x4000
+FirmwareSizeMax = 0x4000
+InstallDuration = 15
+Name = StarLite Magnetic Keyboard
+
+# StarLite Magnetic Keyboard IAP
+[USB\VID_1C4F&PID_007E]
+Plugin = jddz_kbd
+GType = FuJddzKbdIapDevice
+CounterpartGuid = USB\VID_1C4F&PID_007F
+FirmwareSizeMin = 0x4000
+FirmwareSizeMax = 0x4000
+InstallDuration = 15
+Name = StarLite Magnetic Keyboard
+Flags = is-bootloader,use-runtime-version

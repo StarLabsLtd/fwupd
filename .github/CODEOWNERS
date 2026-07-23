@@ -42,6 +42,7 @@ plugins/hughski-colorhug/ @hughsie
 plugins/ilitek-its/ @ILITEK-JoeHung
 plugins/intel-cvs/ @hughsie
 plugins/intel-gsc/ @Fscarbr
+plugins/jddz-kbd/ @Sean-StarLabs
 plugins/jabra-file/ @gdpcastro
 plugins/jabra-gnp/ @gdpcastro
 plugins/kinetic-dp/ @FrancisLeeKinetic

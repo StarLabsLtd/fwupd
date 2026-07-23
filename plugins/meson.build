@@ -76,6 +76,7 @@ plugins = {
   'intel-mkhi': false,
   'intel-usb4': false,
   'iommu': false,
+  'jddz-kbd': false,
   'jabra': false,
   'jabra-file': false,
   'jabra-gnp': false,
