@@ -24,6 +24,10 @@ fu_security_attr_new(FuContext *ctx, const gchar *appstream_id) G_GNUC_NON_NULL(
 void
 fu_security_attr_add_bios_target_value(FuSecurityAttr *self, const gchar *id, const gchar *needle)
     G_GNUC_NON_NULL(1, 2);
+void
+fu_security_attr_add_obsolete_instance(FuSecurityAttr *self,
+				       const gchar *appstream_id,
+				       const gchar *plugin) G_GNUC_NON_NULL(1, 2, 3);
 gboolean
 fu_security_attr_check_fwupd_version(FuSecurityAttr *self, const gchar *fwupd_version)
     G_GNUC_NON_NULL(1) G_GNUC_PURE;

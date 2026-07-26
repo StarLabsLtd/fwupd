@@ -47,6 +47,18 @@ fu_security_attr_check_fwupd_version(FuSecurityAttr *self, const gchar *fwupd_ve
 				  FWUPD_VERSION_FORMAT_UNKNOWN) >= 0;
 }
 
+void
+fu_security_attr_add_obsolete_instance(FuSecurityAttr *self,
+				       const gchar *appstream_id,
+				       const gchar *plugin)
+{
+	g_autofree gchar *key = NULL;
+
+	g_return_if_fail(FU_IS_SECURITY_ATTR(self));
+	key = g_strdup_printf("%s:%s", plugin, appstream_id);
+	fu_security_attr_add_obsolete(self, key);
+}
+
 /**
  * fu_security_attr_add_bios_target_value:
  * @self: a #FuSecurityAttr

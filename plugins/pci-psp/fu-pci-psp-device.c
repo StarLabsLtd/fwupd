@@ -337,6 +337,9 @@ fu_pci_psp_device_add_security_attrs_rollback_protection(FuPciPspDevice *self,
 	}
 
 	fu_pci_psp_device_set_valid_data(self, attrs);
+	fu_security_attr_add_obsolete_instance(attr,
+					       FWUPD_SECURITY_ATTR_ID_BIOS_ROLLBACK_PROTECTION,
+					       "uefi_capsule");
 
 	if (!val) {
 		g_debug("rollback protection not enforced");
