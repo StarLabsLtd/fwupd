@@ -88,6 +88,9 @@ fu_bios_settings_load_func(void)
 		g_assert_cmpstr(fwupd_bios_setting_get_help_text(setting),
 				==,
 				"Synthetic option help for metadata testing.\nSecond line.");
+		g_assert_cmpstr(fwupd_bios_setting_get_display_group(setting),
+				==,
+				"Main / CPU/SoC / Memory");
 		tmp = fwupd_bios_setting_get_current_value(setting);
 		g_assert_cmpstr(tmp, ==, "Disable");
 		values = fwupd_bios_setting_get_possible_values(setting);
@@ -107,6 +110,7 @@ fu_bios_settings_load_func(void)
 		tmp = fwupd_bios_setting_get_current_value(setting);
 		g_assert_cmpstr(tmp, ==, "Primary");
 		g_assert_null(fwupd_bios_setting_get_help_text(setting));
+		g_assert_null(fwupd_bios_setting_get_display_group(setting));
 		values = fwupd_bios_setting_get_possible_values(setting);
 		for (guint i = 0; i < values->len; i++) {
 			const gchar *possible = g_ptr_array_index(values, i);
@@ -273,11 +277,81 @@ fu_bios_settings_no_quirks_func(void)
 	g_assert_null(tmp);
 }
 
+static void
+fu_bios_settings_metadata_bounds_func(void)
+{
+	g_autoptr(FuContext) ctx = fu_context_new_full(FU_CONTEXT_FLAG_NO_QUIRKS);
+	g_autoptr(GError) error = NULL;
+	g_autofree gchar *test_dir =
+	    g_test_build_filename(G_TEST_BUILT, "bios-metadata-XXXXXX", NULL);
+	g_autofree gchar *source = g_test_build_filename(G_TEST_DIST,
+							 "tests",
+							 "bios-attrs",
+							 "lenovo-p620-6.3",
+							 "thinklmi",
+							 "attributes",
+							 "AMDMemoryGuard",
+							 NULL);
+	g_autofree gchar *folder = NULL;
+	const gchar *keys[] = {"type", "current_value", "possible_values", "display_name"};
+	const gchar *metadata_keys[] = {"help_text", "display_group"};
+	const gsize sizes[] = {0, 65536, 65537, 1, 3};
+
+#ifdef _WIN32
+	g_test_skip("BIOS settings not supported on Windows");
+	return;
+#endif
+	if (!g_file_test(source, G_FILE_TEST_IS_DIR)) {
+		g_test_skip("Missing test data");
+		return;
+	}
+	g_assert_nonnull(g_mkdtemp(test_dir));
+	folder = g_build_filename(test_dir, "thinklmi", "attributes", "Test", NULL);
+	g_assert_cmpint(g_mkdir_with_parents(folder, 0700), ==, 0);
+	for (guint i = 0; i < G_N_ELEMENTS(keys); i++) {
+		g_autofree gchar *src_path = g_build_filename(source, keys[i], NULL);
+		g_autofree gchar *dst_path = g_build_filename(folder, keys[i], NULL);
+		g_autoptr(GFile) src = g_file_new_for_path(src_path);
+		g_autoptr(GFile) dst = g_file_new_for_path(dst_path);
+		g_assert_true(g_file_copy(src, dst, G_FILE_COPY_NONE, NULL, NULL, NULL, &error));
+		g_assert_no_error(error);
+	}
+	fu_context_set_path(ctx, FU_PATH_KIND_SYSFSDIR_FW_ATTRIB, test_dir);
+	for (guint i = 0; i < G_N_ELEMENTS(sizes); i++) {
+		FwupdBiosSetting *setting;
+		g_autofree gchar *text = g_strnfill(sizes[i], 'x');
+		if (i == 3)
+			text[0] = (gchar)0xff;
+		if (i == 4)
+			text[1] = '\0';
+		for (guint j = 0; j < G_N_ELEMENTS(metadata_keys); j++) {
+			g_autofree gchar *path = g_build_filename(folder, metadata_keys[j], NULL);
+			g_assert_true(g_file_set_contents(path, text, sizes[i], &error));
+			g_assert_no_error(error);
+		}
+		g_assert_true(fu_context_reload_bios_settings(ctx, &error));
+		g_assert_no_error(error);
+		setting = fu_context_get_bios_setting(ctx, "com.thinklmi.Test");
+		g_assert_nonnull(setting);
+		if (sizes[i] == 65536) {
+			g_assert_cmpstr(fwupd_bios_setting_get_help_text(setting), ==, text);
+			g_assert_cmpstr(fwupd_bios_setting_get_display_group(setting), ==, text);
+		} else {
+			g_assert_null(fwupd_bios_setting_get_help_text(setting));
+			g_assert_null(fwupd_bios_setting_get_display_group(setting));
+		}
+	}
+	g_assert_true(fu_path_rmtree(test_dir, &error));
+	g_assert_no_error(error);
+}
+
 int
 main(int argc, char **argv)
 {
 	(void)g_setenv("G_TEST_SRCDIR", SRCDIR, FALSE);
 	g_test_init(&argc, &argv, NULL);
+	g_test_add_func("/fwupd/bios-settings/metadata-bounds",
+			fu_bios_settings_metadata_bounds_func);
 	g_test_add_func("/fwupd/bios-settings/load", fu_bios_settings_load_func);
 	g_test_add_func("/fwupd/bios-settings/no-quirks", fu_bios_settings_no_quirks_func);
 	return g_test_run();

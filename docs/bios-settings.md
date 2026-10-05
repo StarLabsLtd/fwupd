@@ -211,3 +211,13 @@ Firmware drivers may optionally supply `help_text` alongside `display_name`.
 It is explanatory text (possibly multiline); `Description` retains its existing
 friendly-name semantics. Missing, empty, invalid UTF-8 or oversized optional
 metadata is unset. Reads are bounded to 64 KiB, the largest Linux sysfs page.
+
+The optional `display_group` is available through
+`FwupdBiosSetting.get_display_group()` and the `DisplayGroup` JSON and D-Bus key.
+For CFR this contains every enclosing named form title, from outermost to
+innermost, joined by ` / `, for example `Main / CPU/SoC / Power`. Display this
+whole string as a grouping heading. It is not a machine identifier: firmware
+slashes are unescaped, so consumers must not split it into a hierarchy. Unnamed
+forms retain their parent's heading; options outside named forms have no group.
+The same optional-metadata read limits apply. No driver-specific inference is
+performed when either field is absent.

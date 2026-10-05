@@ -1231,7 +1231,9 @@ LIBFWUPD_2.1.8 {
 
 LIBFWUPD_2.2.1 {
   global:
+    fwupd_bios_setting_get_display_group;
     fwupd_bios_setting_get_help_text;
+    fwupd_bios_setting_set_display_group;
     fwupd_bios_setting_set_help_text;
   local: *;
 } LIBFWUPD_2.1.8;

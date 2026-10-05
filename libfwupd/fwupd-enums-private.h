@@ -721,3 +721,12 @@ G_END_DECLS
  * Since: 2.2.1
  */
 #define FWUPD_RESULT_KEY_BIOS_SETTING_HELP_TEXT "HelpText"
+
+/**
+ * FWUPD_RESULT_KEY_BIOS_SETTING_DISPLAY_GROUP: (skip)
+ *
+ * Optional display breadcrumb for a BIOS setting, not an identifier path.
+ *
+ * Since: 2.2.1
+ */
+#define FWUPD_RESULT_KEY_BIOS_SETTING_DISPLAY_GROUP "DisplayGroup"

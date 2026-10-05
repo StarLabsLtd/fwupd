@@ -153,6 +153,7 @@ fwupd_bios_settings_func(void)
 	g_assert_true(ret);
 
 	g_assert_null(fwupd_bios_setting_get_help_text(attr1));
+	g_assert_null(fwupd_bios_setting_get_display_group(attr1));
 
 	/* roundtrip GVariant */
 	data1 = fwupd_codec_to_variant(FWUPD_CODEC(attr1), FWUPD_CODEC_FLAG_TRUSTED);
@@ -271,8 +272,10 @@ fwupd_bios_settings_metadata_func(void)
 	g_autofree gchar *json = NULL;
 
 	g_assert_null(fwupd_bios_setting_get_help_text(setting));
+	g_assert_null(fwupd_bios_setting_get_display_group(setting));
 	fwupd_bios_setting_set_description(setting, "Friendly name");
 	fwupd_bios_setting_set_help_text(setting, "First line\nSecond line");
+	fwupd_bios_setting_set_display_group(setting, "Main / CPU/SoC / Power");
 	fwupd_bios_setting_set_current_value(setting, "secret");
 	for (guint i = 0; i < 2; i++) {
 		g_autoptr(GVariant) variant = fwupd_codec_to_variant(
@@ -283,6 +286,9 @@ fwupd_bios_settings_metadata_func(void)
 		g_assert_cmpstr(fwupd_bios_setting_get_help_text(copy),
 				==,
 				"First line\nSecond line");
+		g_assert_cmpstr(fwupd_bios_setting_get_display_group(copy),
+				==,
+				"Main / CPU/SoC / Power");
 		g_assert_cmpstr(fwupd_bios_setting_get_description(copy), ==, "Friendly name");
 		if (i == 0)
 			g_assert_null(fwupd_bios_setting_get_current_value(copy));
@@ -292,6 +298,9 @@ fwupd_bios_settings_metadata_func(void)
 	g_assert_true(fwupd_codec_from_json_string(FWUPD_CODEC(copy), json, &error));
 	g_assert_no_error(error);
 	g_assert_cmpstr(fwupd_bios_setting_get_help_text(copy), ==, "First line\nSecond line");
+	g_assert_cmpstr(fwupd_bios_setting_get_display_group(copy), ==, "Main / CPU/SoC / Power");
+	fwupd_bios_setting_set_display_group(setting, NULL);
+	g_assert_null(fwupd_bios_setting_get_display_group(setting));
 	fwupd_bios_setting_set_help_text(setting, NULL);
 	g_assert_null(fwupd_bios_setting_get_help_text(setting));
 }

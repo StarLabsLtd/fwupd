@@ -303,6 +303,7 @@ fu_bios_settings_set_folder_attributes(FuBiosSettings *self, FwupdBiosSetting *a
 {
 	g_autoptr(GError) error_local = NULL;
 	g_autofree gchar *help_text = NULL;
+	g_autofree gchar *display_group = NULL;
 
 	if (!fu_bios_settings_set_type(self, attr, error))
 		return FALSE;
@@ -312,6 +313,8 @@ fu_bios_settings_set_folder_attributes(FuBiosSettings *self, FwupdBiosSetting *a
 		g_debug("%s", error_local->message);
 	help_text = fu_bios_settings_get_optional_text(attr, "help_text");
 	fwupd_bios_setting_set_help_text(attr, help_text);
+	display_group = fu_bios_settings_get_optional_text(attr, "display_group");
+	fwupd_bios_setting_set_display_group(attr, display_group);
 	fu_bios_settings_set_read_only(self, attr);
 	return TRUE;
 }
