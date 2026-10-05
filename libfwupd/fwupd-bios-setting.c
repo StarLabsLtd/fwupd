@@ -30,6 +30,7 @@ typedef struct {
 	gchar *icon;
 	gchar *name;
 	gchar *description;
+	gchar *help_text;
 	gchar *path;
 	gchar *value_filename;
 	gchar *current_value;
@@ -473,6 +474,29 @@ fwupd_bios_setting_set_description(FwupdBiosSetting *self, const gchar *descript
 	priv->description = g_strdup(description);
 }
 
+/**
+ * fwupd_bios_setting_set_help_text:
+ * @self: a #FwupdBiosSetting
+ * @help_text: (nullable): the option help text
+ *
+ * Sets the option help text.
+ *
+ * Since: 2.2.1
+ **/
+void
+fwupd_bios_setting_set_help_text(FwupdBiosSetting *self, const gchar *help_text)
+{
+	FwupdBiosSettingPrivate *priv = GET_PRIVATE(self);
+	g_return_if_fail(FWUPD_IS_BIOS_SETTING(self));
+
+	/* not changed */
+	if (g_strcmp0(priv->help_text, help_text) == 0)
+		return;
+
+	g_free(priv->help_text);
+	priv->help_text = g_strdup(help_text);
+}
+
 /* determine if key is supposed to be positive */
 static gboolean
 fwupd_bios_setting_key_is_positive(const gchar *key)
@@ -738,6 +762,24 @@ fwupd_bios_setting_get_description(FwupdBiosSetting *self)
 	FwupdBiosSettingPrivate *priv = GET_PRIVATE(self);
 	g_return_val_if_fail(FWUPD_IS_BIOS_SETTING(self), NULL);
 	return priv->description;
+}
+
+/**
+ * fwupd_bios_setting_get_help_text:
+ * @self: a #FwupdBiosSetting
+ *
+ * Gets the optional explanatory help text, separate from the friendly name.
+ *
+ * Returns: (nullable): the option help text, or %NULL if unset.
+ *
+ * Since: 2.2.1
+ **/
+const gchar *
+fwupd_bios_setting_get_help_text(FwupdBiosSetting *self)
+{
+	FwupdBiosSettingPrivate *priv = GET_PRIVATE(self);
+	g_return_val_if_fail(FWUPD_IS_BIOS_SETTING(self), NULL);
+	return priv->help_text;
 }
 
 /**
@@ -1065,6 +1107,12 @@ fwupd_bios_setting_add_variant(FwupdCodec *codec, GVariantBuilder *builder, Fwup
 				      FWUPD_RESULT_KEY_DESCRIPTION,
 				      g_variant_new_string(priv->description));
 	}
+	if (priv->help_text != NULL) {
+		g_variant_builder_add(builder,
+				      "{sv}",
+				      FWUPD_RESULT_KEY_BIOS_SETTING_HELP_TEXT,
+				      g_variant_new_string(priv->help_text));
+	}
 	if (priv->value_filename != NULL) {
 		g_variant_builder_add(builder,
 				      "{sv}",
@@ -1152,6 +1200,10 @@ fwupd_bios_setting_from_key_value(FwupdBiosSetting *self, const gchar *key, GVar
 		fwupd_bios_setting_set_description(self, fwupd_variant_get_string(value));
 		return;
 	}
+	if (g_strcmp0(key, FWUPD_RESULT_KEY_BIOS_SETTING_HELP_TEXT) == 0) {
+		fwupd_bios_setting_set_help_text(self, fwupd_variant_get_string(value));
+		return;
+	}
 	if (g_strcmp0(key, FWUPD_RESULT_KEY_BIOS_SETTING_POSSIBLE_VALUES) == 0) {
 		g_autofree const gchar **strv = fwupd_variant_get_strv(value);
 		for (guint i = 0; strv != NULL && strv[i] != NULL; i++)
@@ -1207,6 +1259,9 @@ fwupd_bios_setting_from_json(FwupdCodec *codec, FwupdJsonObject *json_obj, GErro
 	fwupd_bios_setting_set_description(
 	    self,
 	    fwupd_json_object_get_string(json_obj, FWUPD_RESULT_KEY_DESCRIPTION, NULL));
+	fwupd_bios_setting_set_help_text(
+	    self,
+	    fwupd_json_object_get_string(json_obj, FWUPD_RESULT_KEY_BIOS_SETTING_HELP_TEXT, NULL));
 	fwupd_bios_setting_set_path(
 	    self,
 	    fwupd_json_object_get_string(json_obj, FWUPD_RESULT_KEY_FILENAME, NULL));
@@ -1272,6 +1327,10 @@ fwupd_bios_setting_add_json(FwupdCodec *codec, FwupdJsonObject *json_obj, FwupdC
 		fwupd_json_object_add_string(json_obj,
 					     FWUPD_RESULT_KEY_DESCRIPTION,
 					     priv->description);
+	if (priv->help_text != NULL)
+		fwupd_json_object_add_string(json_obj,
+					     FWUPD_RESULT_KEY_BIOS_SETTING_HELP_TEXT,
+					     priv->help_text);
 	if (priv->path != NULL)
 		fwupd_json_object_add_string(json_obj, FWUPD_RESULT_KEY_FILENAME, priv->path);
 	if (priv->id != NULL)
@@ -1339,6 +1398,10 @@ fwupd_bios_setting_add_string(FwupdCodec *codec, guint idt, GString *str)
 	fwupd_codec_string_append(str, idt, FWUPD_RESULT_KEY_APPSTREAM_ID, priv->appstream_id);
 	fwupd_codec_string_append(str, idt, FWUPD_RESULT_KEY_BIOS_SETTING_ICON, priv->icon);
 	fwupd_codec_string_append(str, idt, FWUPD_RESULT_KEY_DESCRIPTION, priv->description);
+	fwupd_codec_string_append(str,
+				  idt,
+				  FWUPD_RESULT_KEY_BIOS_SETTING_HELP_TEXT,
+				  priv->help_text);
 	fwupd_codec_string_append(str, idt, FWUPD_RESULT_KEY_FILENAME, priv->path);
 	fwupd_codec_string_append_int(str, idt, FWUPD_RESULT_KEY_BIOS_SETTING_TYPE, priv->kind);
 	fwupd_codec_string_append(str,
@@ -1423,6 +1486,7 @@ fwupd_bios_setting_finalize(GObject *object)
 	g_free(priv->icon);
 	g_free(priv->name);
 	g_free(priv->description);
+	g_free(priv->help_text);
 	g_free(priv->path);
 	g_free(priv->value_filename);
 	g_ptr_array_unref(priv->possible_values);

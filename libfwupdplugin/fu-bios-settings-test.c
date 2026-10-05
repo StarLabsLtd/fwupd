@@ -85,6 +85,9 @@ fu_bios_settings_load_func(void)
 		g_assert_cmpstr(tmp, ==, "AMDMemoryGuard");
 		tmp = fwupd_bios_setting_get_description(setting);
 		g_assert_cmpstr(tmp, ==, "AMDMemoryGuard");
+		g_assert_cmpstr(fwupd_bios_setting_get_help_text(setting),
+				==,
+				"Synthetic option help for metadata testing.\nSecond line.");
 		tmp = fwupd_bios_setting_get_current_value(setting);
 		g_assert_cmpstr(tmp, ==, "Disable");
 		values = fwupd_bios_setting_get_possible_values(setting);
@@ -103,6 +106,7 @@ fu_bios_settings_load_func(void)
 		g_assert_nonnull(setting);
 		tmp = fwupd_bios_setting_get_current_value(setting);
 		g_assert_cmpstr(tmp, ==, "Primary");
+		g_assert_null(fwupd_bios_setting_get_help_text(setting));
 		values = fwupd_bios_setting_get_possible_values(setting);
 		for (guint i = 0; i < values->len; i++) {
 			const gchar *possible = g_ptr_array_index(values, i);

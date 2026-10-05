@@ -205,3 +205,9 @@ None of this metadata is sensitive, so it is always available to unprivileged cl
 ## libfwupd
 
 `fwupdmgr` internally uses `FwupdClient` to manage BIOS settings.  Any other clients that are interested in managing BIOS settings can use this library as well. A sample python application is included in the `contrib/` directory in the fwupd source tree.
+
+Firmware drivers may optionally supply `help_text` alongside `display_name`.
+`FwupdBiosSetting.get_help_text()` exposes this as `HelpText` in JSON and D-Bus.
+It is explanatory text (possibly multiline); `Description` retains its existing
+friendly-name semantics. Missing, empty, invalid UTF-8 or oversized optional
+metadata is unset. Reads are bounded to 64 KiB, the largest Linux sysfs page.

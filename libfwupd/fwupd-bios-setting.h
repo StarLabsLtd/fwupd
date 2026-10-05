@@ -123,4 +123,9 @@ fwupd_bios_setting_get_filename(FwupdBiosSetting *self) G_GNUC_NON_NULL(1);
 void
 fwupd_bios_setting_set_filename(FwupdBiosSetting *self, const gchar *filename) G_GNUC_NON_NULL(1);
 
+const gchar *
+fwupd_bios_setting_get_help_text(FwupdBiosSetting *self) G_GNUC_NON_NULL(1);
+void
+fwupd_bios_setting_set_help_text(FwupdBiosSetting *self, const gchar *help_text) G_GNUC_NON_NULL(1);
+
 G_END_DECLS

@@ -712,3 +712,12 @@ G_BEGIN_DECLS
 #define FWUPD_RESULT_KEY_DEVICE_NAME "DeviceName"
 
 G_END_DECLS
+
+/**
+ * FWUPD_RESULT_KEY_BIOS_SETTING_HELP_TEXT: (skip)
+ *
+ * Optional explanatory help text for a BIOS setting.
+ *
+ * Since: 2.2.1
+ */
+#define FWUPD_RESULT_KEY_BIOS_SETTING_HELP_TEXT "HelpText"

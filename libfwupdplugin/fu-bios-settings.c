@@ -17,6 +17,7 @@
 #include "fu-bios-settings-private.h"
 #include "fu-common.h"
 #include "fu-context.h"
+#include "fu-file-input-stream.h"
 #include "fu-path.h"
 #include "fu-quirks.h"
 #include "fu-string.h"
@@ -77,6 +78,40 @@ fu_bios_setting_get_key(FwupdBiosSetting *attr, /* nocheck:name */
 	}
 	g_strchomp(*value_out);
 	return TRUE;
+}
+
+/* optional metadata reads allow the largest Linux sysfs page */
+static gchar *
+fu_bios_settings_get_optional_text(FwupdBiosSetting *attr, const gchar *key)
+{
+	g_autofree guint8 *buf = g_malloc(65537);
+	gsize sz = 0;
+	g_autofree gchar *path = g_build_filename(fwupd_bios_setting_get_path(attr), key, NULL);
+	g_autoptr(GFile) file = g_file_new_for_path(path);
+	g_autoptr(FuFileInputStream) stream = NULL;
+	g_autoptr(GError) error = NULL;
+
+	stream = fu_file_input_stream_from_file(file, NULL, &error);
+	if (stream == NULL) {
+		if (!g_error_matches(error, FWUPD_ERROR, FWUPD_ERROR_NOT_FOUND))
+			g_debug("failed to read %s: %s", key, error->message);
+		return NULL;
+	}
+	if (!fu_input_stream_read_all(FU_INPUT_STREAM(stream), buf, 65537, &sz, NULL, &error)) {
+		g_debug("failed to read %s: %s", key, error->message);
+		return NULL;
+	}
+	if (sz > 65536 || memchr(buf, '\0', sz) != NULL ||
+	    !g_utf8_validate((const gchar *)buf, sz, NULL)) {
+		g_debug("invalid optional BIOS setting %s", key);
+		return NULL;
+	}
+	/* remove only the sysfs terminator, preserving whitespace in help text */
+	if (sz > 0 && buf[sz - 1] == '\n')
+		sz--;
+	if (sz == 0)
+		return NULL;
+	return g_strndup((const gchar *)buf, sz);
 }
 
 static gboolean
@@ -267,6 +302,7 @@ static gboolean
 fu_bios_settings_set_folder_attributes(FuBiosSettings *self, FwupdBiosSetting *attr, GError **error)
 {
 	g_autoptr(GError) error_local = NULL;
+	g_autofree gchar *help_text = NULL;
 
 	if (!fu_bios_settings_set_type(self, attr, error))
 		return FALSE;
@@ -274,6 +310,8 @@ fu_bios_settings_set_folder_attributes(FuBiosSettings *self, FwupdBiosSetting *a
 		return FALSE;
 	if (!fu_bios_settings_set_description(self, attr, &error_local))
 		g_debug("%s", error_local->message);
+	help_text = fu_bios_settings_get_optional_text(attr, "help_text");
+	fwupd_bios_setting_set_help_text(attr, help_text);
 	fu_bios_settings_set_read_only(self, attr);
 	return TRUE;
 }
